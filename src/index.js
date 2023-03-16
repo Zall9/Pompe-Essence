@@ -65,5 +65,5 @@ createCode.addEventListener("click", () => {
     // reload page
     window.location.reload();
   });
-} 
+  } 
 );
