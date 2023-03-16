@@ -1,8 +1,7 @@
-// import axios
 import axios from "axios";
 
 export default class Caisse {
-  constructor() {
+  constructor(nom, quantite) {
     this.codes = [];
   }
 
@@ -31,13 +30,16 @@ export default class Caisse {
     return this.codes.get(code);
   }
 
-  getAllCode() {
+  getAllCode(codes) {
+    let result = [];
     axios
       .get("http://localhost:3000/codes")
       .then((response) => {
-        for (const element of response.data) {
-          this.codes.push(element["code"]);
+        console.log("response from AXIOS/CODES", response);
+        for (response of response.data) {
+          result.push(response.code);
         }
+        return result;
       })
       .catch((error) => {
         console.log(error);
@@ -45,17 +47,13 @@ export default class Caisse {
   }
 
   domElement = () => {
-    let div = document.createElement("div");
-    div.classList.add("caisse");
-
-    // get all code from with method getAllCode
-    this.getAllCode();
-    console.log(this.codes);
-    for (code of this.codes) {
-      let codeDiv = document.createElement("div");
-      codeDiv.innerHTML = code;
-      div.appendChild(codeDiv);
-      console.log(code);
+    this.codes = this.getAllCode();
+    const div = document.createElement("div");
+    const ul = document.createElement("ul");
+    for (let code of this.codes) {
+      const li = document.createElement("li");
+      li.innerHTML = code;
+      ul.appendChild(li);
     }
     return div;
   };
