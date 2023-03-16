@@ -5,12 +5,6 @@ export default class Caisse {
     this.codes = [];
   }
 
-  // payer(pompe, montant) {
-  //   const code = this.genererCode();
-  //   this.codes.set(code, { pompe, montant });
-  //   return code;
-  // }
-
   genererCode(typeCarburant, quantitéL) {
     let code =
       Math.random().toString(36).substr(2, 9) +
@@ -30,31 +24,29 @@ export default class Caisse {
     return this.codes.get(code);
   }
 
-  getAllCode(codes) {
-    let result = [];
-    axios
-      .get("http://localhost:3000/codes")
-      .then((response) => {
-        console.log("response from AXIOS/CODES", response);
-        for (response of response.data) {
-          result.push(response.code);
-        }
-        return result;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async getAllCode() {
+    try {
+      const response = await axios.get("http://localhost:3000/codes");
+      return response.data.map((data) => data.code);
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   }
 
-  domElement = () => {
-    this.codes = this.getAllCode();
+  async domElement() {
+    const codes = await this.getAllCode();
     const div = document.createElement("div");
+    const h2 = document.createElement("h2");
+    h2.innerHTML = "Caisse";
+    div.appendChild(h2);
     const ul = document.createElement("ul");
-    for (let code of this.codes) {
+    for (let code of codes) {
       const li = document.createElement("li");
       li.innerHTML = code;
       ul.appendChild(li);
     }
+    div.appendChild(ul);
     return div;
-  };
+  }
 }

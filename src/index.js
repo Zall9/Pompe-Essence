@@ -16,7 +16,16 @@ const pompe3 = new Pompe("Ethanol", 100, 100);
 
 // Ajout de la caisse à la station-service
 const caisseDiv = document.querySelector("#caisse");
-caisseDiv.appendChild(caisse.domElement());
+
+(async () => {
+  try {
+    const element = await caisse.domElement();
+    caisseDiv.appendChild(element);
+  } catch (error) {
+    console.log(error);
+  }
+})();
+
 
 // Ajout des pompes à la station-service
 const pompesDiv = document.querySelector("#pompes");
@@ -28,41 +37,28 @@ pompesDiv.appendChild(pompe3.domElement());
 const createCode = document.querySelector("#validerCode");
 createCode.addEventListener("click", () => {
   let typeCarburant = document.querySelector("#typeCarburant").value;
-  let quantiteL = document.querySelector("#qttCarburant").value;
+  let argent = document.querySelector("#qttCarburant").value;
 
-  // if type Carburant into Diesel or Essence or Ethanol
-  if (
-    typeCarburant === "Diesel" ||
-    typeCarburant === "Essence" ||
-    typeCarburant === "Ethanol"
-  ) {
-    // if quantiteL is a number
-    if (!isNaN(quantiteL)) {
-      let code =
-        Math.random().toString(36).substr(2, 9) +
-        "_" +
-        typeCarburant +
-        "_" +
-        quantiteL;
-      console.log(code);
-
-      const nouvelleDonnee = {
-        code: code,
-      };
-
-      const url = "http://localhost:3000/codes";
-      axios
-        .post(url, nouvelleDonnee)
-        .then((response) => {
-          console.log("Donnée ajoutée avec succès:", response.data);
-        })
-        .catch((error) => {
-          console.error("Erreur lors de l'ajout de la donnée:", error);
-        });
-    } else {
-      alert("La quantité de carburant doit être un nombre");
-    }
-  } else {
-    alert("Le type de carburant doit être Diesel, Essence ou Ethanol");
+  if (typeCarburant === "" || argent === "") {
+    alert("Tous les champs doivent être remplis");
+    return;
   }
-});
+  // if argent is not a number
+  if (isNaN(argent)) {
+    alert("Le montant doit être un nombre");
+    return;
+  }
+  // if type Carburant into Diesel or Essence or Ethanol
+  if (typeCarburant.toLowerCase() !== "diesel" && typeCarburant.toLowerCase() !== "essence" &&  typeCarburant.toLowerCase() !== "ethanol") {
+    alert("Le type de carburant doit être un Diesel ou Essence ou Ethanol");
+    return;
+  }
+  axios.post("http://localhost:3000/codes", {
+    code: caisse.genererCode(typeCarburant, argent),
+  }).then((response) => {
+    console.log(response);
+    // reload page
+    window.location.reload();
+  });
+} 
+);

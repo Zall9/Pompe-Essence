@@ -13,24 +13,248 @@
       "id": 3
     },
     {
-      "code": "yjmnhxdio_Diesel_100",
+      "code": "z8s6ml98o_ethanol_1200",
+      "id": 4
+    }
+  ],
+  "pompes": [
+    {
+      "id": 1,
+      "nom": "Pompe 1",
+      "volume": 0,
+      "type": "Diesel",
+      "estDisponible": true
+    },
+    {
+      "id": 2,
+      "nom": "Pompe 2",
+      "volume": 0,
+      "type": "Ethanol",
+      "estDisponible": true
+    },
+    {
+      "id": 3,
+      "nom": "Pompe 3",
+      "volume": 0,
+      "type": "Essence",
+      "estDisponible": true
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
       "id": 4
     },
     {
-      "code": "dsse03swi_Diesel_100",
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
       "id": 5
     },
     {
-      "code": "03912il3w_Diesel_100",
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
       "id": 6
     },
     {
-      "code": "1vdpzagbx_Diesel_100",
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
       "id": 7
     },
     {
-      "code": "d07hnn6cu_Diesel_100",
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
       "id": 8
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 9
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 10
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 11
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 12
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 13
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 14
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 15
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 16
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 17
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 18
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 19
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 20
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 21
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 22
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 23
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 24
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 25
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 26
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 27
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 28
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 29
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 30
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 31
+    },
+    {
+      "nom": "Diesel",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 32
+    },
+    {
+      "nom": "Essence",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 33
+    },
+    {
+      "nom": "Ethanol",
+      "volume": 100,
+      "type": 100,
+      "estDisponible": true,
+      "id": 34
     }
   ]
 }
