@@ -39,7 +39,7 @@ export default class Caisse {
     * @param montant
     * la caisse alimente la pompe par rapport au montant donné
     *  la caisse renvoie un code correspondant à la transaction
-    *  ensuite l'utilisateur prends la pompe et débite le carburant de la pompe 
+    *  ensuite l'utilisateur prends la pompe et débite le carburant de la pompe (dans index JS)
     * @returns 
     */
   async domElement() {
