@@ -3,14 +3,14 @@ import axios from "axios";
 
 export default class Caisse {
   constructor() {
-    this.codes = new Map();
+    this.codes = [];
   }
 
-  payer(pompe, montant) {
-    const code = this.genererCode();
-    this.codes.set(code, { pompe, montant });
-    return code;
-  }
+  // payer(pompe, montant) {
+  //   const code = this.genererCode();
+  //   this.codes.set(code, { pompe, montant });
+  //   return code;
+  // }
 
   genererCode(typeCarburant, quantitéL) {
     let code =
@@ -19,7 +19,7 @@ export default class Caisse {
       typeCarburant +
       "_" +
       quantitéL;
-    this.codes.set(code, { typeCarburant, quantitéL });
+    //this.codes.set(code, { typeCarburant, quantitéL });
     return code;
   }
 
@@ -35,7 +35,9 @@ export default class Caisse {
     axios
       .get("http://localhost:3000/codes")
       .then((response) => {
-        console.log(response.data);
+        for (const element of response.data) {
+          this.codes.push(element["code"]);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -46,14 +48,15 @@ export default class Caisse {
     let div = document.createElement("div");
     div.classList.add("caisse");
 
-    // generate the HTML for the caisse h2 caisse and the list of codes
-    div.innerHTML = `
-      <h2>Caisse</h2>
-      <p>Codes disponibles:</p>
-      <ul>
-        ${[...this.codes.keys()].map((code) => `<li>${code}</li>`).join("")}
-      </ul>
-    `;
+    // get all code from with method getAllCode
+    this.getAllCode();
+    console.log(this.codes);
+    for (code of this.codes) {
+      let codeDiv = document.createElement("div");
+      codeDiv.innerHTML = code;
+      div.appendChild(codeDiv);
+      console.log(code);
+    }
     return div;
   };
 }
