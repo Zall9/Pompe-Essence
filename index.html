@@ -10,13 +10,43 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap"
       rel="stylesheet"
     />
+
     <title>Pompe architecture logicielle TP 1</title>
   </head>
   <body>
     <div>
       <h1 class="title">Station-service</h1>
-      <div id="caisse"></div>
-      <div id="pompes"></div>
+      <div style="display: flex; flex-direction: row; justify-content: center">
+        <div id="caisse" style="margin-right: 20px"></div>
+        <div id="pompes"></div>
+      </div>
+      <div style="display: flex; flex-direction: row; justify-content: center">
+        <div
+          style="
+            display: grid;
+            justify-content: center;
+            align-content: center;
+            margin-right: 20px;
+          "
+        >
+          <h2>Caisse</h2>
+          <input
+            type="text"
+            id="typeCarburant"
+            placeholder="Type de carburant"
+          />
+          <input type="text" id="qttCarburant" placeholder="Quantité" />
+          <button id="validerCode">Valider</button>
+        </div>
+        <div
+          style="display: grid; justify-content: center; align-content: center"
+        >
+          <h2>Utilisation de votre code</h2>
+          <input type="text" placeholder="Type de carburant" />
+          <input type="text" placeholder="Quantité" />
+          <button id="validerUtilisation">Valider</button>
+        </div>
+      </div>
     </div>
     <script type="module" src="./src/index.js"></script>
     <script type="module" src="/main.js"></script>

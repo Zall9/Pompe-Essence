@@ -1,3 +1,6 @@
+// import axios
+import axios from "axios";
+
 export default class Caisse {
   constructor() {
     this.codes = new Map();
@@ -9,8 +12,15 @@ export default class Caisse {
     return code;
   }
 
-  genererCode() {
-    return Math.floor(100000 + Math.random() * 900000);
+  genererCode(typeCarburant, quantitéL) {
+    let code =
+      Math.random().toString(36).substr(2, 9) +
+      "_" +
+      typeCarburant +
+      "_" +
+      quantitéL;
+    this.codes.set(code, { typeCarburant, quantitéL });
+    return code;
   }
 
   verifierCode(code) {
@@ -20,4 +30,30 @@ export default class Caisse {
   getInfo(code) {
     return this.codes.get(code);
   }
+
+  getAllCode() {
+    axios
+      .get("http://localhost:3000/codes")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  domElement = () => {
+    let div = document.createElement("div");
+    div.classList.add("caisse");
+
+    // generate the HTML for the caisse h2 caisse and the list of codes
+    div.innerHTML = `
+      <h2>Caisse</h2>
+      <p>Codes disponibles:</p>
+      <ul>
+        ${[...this.codes.keys()].map((code) => `<li>${code}</li>`).join("")}
+      </ul>
+    `;
+    return div;
+  };
 }

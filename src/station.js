@@ -7,10 +7,15 @@ export default class Station {
     this.pompes = [new Pompe(1), new Pompe(2), new Pompe(3), new Pompe(4)];
   }
 
+  constructor(caisse, pompes) {
+    this.caisse = caisse;
+    this.pompes = pompes;
+  }
+
   get caisse() {
     return this._caisse;
   }
-
+{{  }}
   set caisse(caisse) {
     this._caisse = caisse;
   }
