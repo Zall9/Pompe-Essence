@@ -10,10 +10,14 @@ caisse.genererCode("Ethanol", 50);
 caisse.genererCode("Essence", 50);
 
 // Création des pompes
-const pompe1 = new Pompe("Diesel", 100, 100);
-const pompe2 = new Pompe("Essence", 100, 100);
-const pompe3 = new Pompe("Ethanol", 100, 100);
 
+let Pompes = await axios.get("http://localhost:3000/pompes");
+console.log("PUMPS",Pompes)
+if(Pompes.data.length == 0){
+  const pompe1 = new Pompe("Diesel", 100, 100);
+  const pompe2 = new Pompe("Essence", 100, 100);
+  const pompe3 = new Pompe("Ethanol", 100, 100);
+}
 // Ajout de la caisse à la station-service
 const caisseDiv = document.querySelector("#caisse");
 
@@ -29,10 +33,11 @@ const caisseDiv = document.querySelector("#caisse");
 
 // Ajout des pompes à la station-service
 const pompesDiv = document.querySelector("#pompes");
-pompesDiv.appendChild(pompe1.domElement());
-pompesDiv.appendChild(pompe2.domElement());
-pompesDiv.appendChild(pompe3.domElement());
-
+Pompes.data.forEach(async (pompe) => {
+  console.log("POMPE",pompe)
+  const element = await Pompe.domElement(pompe);
+  pompesDiv.appendChild(element);
+});
 // click on validerCode
 const createCode = document.querySelector("#validerCode");
 createCode.addEventListener("click", () => {

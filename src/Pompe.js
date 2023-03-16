@@ -68,15 +68,21 @@ export default class Pompe {
     }
   }
 
-  domElement = () => {
-    let div = document.createElement("div");
+  static domElement = async (pump) => {
+    const div = document.createElement("div");
     div.classList.add("pompe");
-    div.innerHTML = `
-      <h2>Pompe</h2>
-      <p>Type de carburant: ${this.getTypeCarburant()}</p>
-      <p>Volume max: ${this.getVolumeMax()}</p>
-      <p>Volume dispo: ${this.getVolumeDispo()}</p>
-    `;
+    const h2 = document.createElement("h2");
+    h2.innerHTML = pump.nom;
+    div.appendChild(h2);
+    const p = document.createElement("p");
+    p.innerHTML = "Volume disponible: " + pump.volume;
+    div.appendChild(p);
+    const p2 = document.createElement("p");
+    p2.innerHTML = "Type de carburant: " + pump.type;
+    div.appendChild(p2);
+    const p3 = document.createElement("p");
+    p3.innerHTML = "Disponible: " + pump.estDisponible;
+    div.appendChild(p3);
     return div;
   };
 }

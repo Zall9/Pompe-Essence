@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default class Caisse {
   constructor(nom, quantite) {
-    this.codes = [];
+    this.codes = new Map();
   }
 
   genererCode(typeCarburant, quantitéL) {
@@ -12,7 +12,7 @@ export default class Caisse {
       typeCarburant +
       "_" +
       quantitéL;
-    //this.codes.set(code, { typeCarburant, quantitéL });
+    this.codes.set(code, { typeCarburant, quantitéL });
     return code;
   }
 
@@ -37,6 +37,7 @@ export default class Caisse {
   async domElement() {
     const codes = await this.getAllCode();
     const div = document.createElement("div");
+    div.classList.add("caisse");
     const h2 = document.createElement("h2");
     h2.innerHTML = "Caisse";
     div.appendChild(h2);
