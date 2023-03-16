@@ -33,7 +33,15 @@ export default class Caisse {
       return [];
     }
   }
-
+   /// faire une fonction payer 
+   /**
+    * @param pompe
+    * @param montant
+    * la caisse alimente la pompe par rapport au montant donné
+    *  la caisse renvoie un code correspondant à la transaction
+    *  ensuite l'utilisateur prends la pompe et débite le carburant de la pompe 
+    * @returns 
+    */
   async domElement() {
     const codes = await this.getAllCode();
     const div = document.createElement("div");
