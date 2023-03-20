@@ -15,7 +15,7 @@ export default class Station {
   get caisse() {
     return this._caisse;
   }
-{{  }}
+
   set caisse(caisse) {
     this._caisse = caisse;
   }
