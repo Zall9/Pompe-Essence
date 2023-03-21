@@ -38,18 +38,46 @@ export default class Caisse {
   // faire une fonction prend le montant et renvoi le litre correspondant
 
   calculerLitre(montant, typeCarburant) {
+    console.log("je suis dedans");
+    if (montant === 0) return 0;
+
+    // verifie if montant is a number
+    if (isNaN(montant)) {
+      // convert to number
+      montant = +montant;
+    }
+
     typeCarburant = typeCarburant.toLowerCase();
     if (typeCarburant === "diesel") {
-      return montant / Prix.diesel;
+      return montant / Prix.Diesel;
     }
-    if (typeCarburant === "gazole") {
-      return montant / Prix.gazole;
+    if (typeCarburant === "ethanol") {
+      return montant / Prix.Ethanol;
     }
     if (typeCarburant === "essence") {
-      return montant / Prix.essence;
+      return montant / Prix.Essence;
     }
   }
 
+  calculerPrix(litre, typeCarburant) {
+    if (litre === 0) return 0;
+
+    // verifie if montant is a number
+    if (isNaN(litre)) {
+      // convert to number
+      litre = +litre;
+    }
+    typeCarburant = typeCarburant.toLowerCase();
+    if (typeCarburant === "diesel") {
+      return litre * Prix.Diesel;
+    }
+    if (typeCarburant === "ethanol") {
+      return litre * Prix.Ethanol;
+    }
+    if (typeCarburant === "essence") {
+      return litre * Prix.Essence;
+    }
+  }
   // faire fonction qui prend le litre et renvoi le montant totale
 
   /// faire une fonction payer
@@ -80,6 +108,7 @@ export default class Caisse {
     // si le montant est insuffisant on affiche un message d'erreur
     // si le montant n'est pas consonmme totalement on remet la difference sur la carte
     // on vide la pompe pour le prochain client
+
   }
 
   async getCode(id) {
@@ -124,7 +153,9 @@ export default class Caisse {
     div.appendChild(h2);
     const ul = document.createElement("ul");
     for (let code of codes) {
+      const _code = code.split("_")[0];
       const li = document.createElement("li");
+      // li.innerHTML=_code
       li.innerHTML = code;
       ul.appendChild(li);
     }

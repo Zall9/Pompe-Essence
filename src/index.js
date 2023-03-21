@@ -5,26 +5,23 @@ import axios from "axios";
 
 // Création de la caisse
 const caisse = new Caisse();
-caisse.genererCode("Gazole", 50);
-caisse.genererCode("Ethanol", 50);
-caisse.genererCode("Essence", 50);
 
 // Création des pompes
 
 let Pompes = await axios.get("http://localhost:3000/pompes");
 console.log("PUMPS", Pompes);
 if (Pompes.data.length == 0) {
-  const pompe1 = new Pompe("Diesel", 100, "Diesel");
-  const pompe2 = new Pompe("Essence", 100, "Essence");
-  const pompe3 = new Pompe("Ethanol", 100, "Ethanol");
+  const pompe1 = new Pompe("Diesel", 0, "Diesel");
+  const pompe2 = new Pompe("Essence", 0, "Essence");
+  const pompe3 = new Pompe("Ethanol", 0, "Ethanol");
 }
 // Ajout de la caisse à la station-service
 const caisseDiv = document.querySelector("#caisse");
 
 (async () => {
   try {
-    const element = await caisse.domElement();
-    caisseDiv.appendChild(element);
+    const code = await caisse.domElement();
+    caisseDiv.appendChild(code);
   } catch (error) {
     console.log(error);
   }
@@ -70,10 +67,8 @@ createCode.addEventListener("click", () => {
     .then((response) => {
       console.log(response);
       // reload page
-
       // alert with code
       alert("Votre code est: " + response.data.code);
-
       window.location.reload();
     });
 });
