@@ -1,7 +1,31 @@
 import Caisse from "./Caisse.js";
 import Pompe, { staticPump } from "./Pompe.js";
-// axios import
 import axios from "axios";
+
+// let resetDB = document.querySelector("#resteDB");
+// resetDB.addEventListener("click", () =>{
+//   axios
+//     .delete("http://localhost:3000/codes")
+//     .then((response) => {
+//       console.log("Delete codes");
+//       console.log(response);
+//       window.location.reload();
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+
+//   axios
+//     .delete("http://localhost:3000/pompes")
+//     .then((response) => {
+//       console.log("Delete pompes");
+//       console.log(response);
+//       window.location.reload();
+//     }
+//     .catch((error) => {
+//       console.log(error);
+//     }
+// });
 
 // Création de la caisse
 const caisse = new Caisse();
@@ -15,6 +39,7 @@ if (Pompes.data.length == 0) {
   const pompe2 = new Pompe("Essence", 0, "Essence");
   const pompe3 = new Pompe("Ethanol", 0, "Ethanol");
 }
+
 // Ajout de la caisse à la station-service
 const caisseDiv = document.querySelector("#caisse");
 
@@ -36,6 +61,7 @@ Pompes.data.forEach(async (pompe) => {
   const element = await staticPump.domElement(_serialPompe);
   pompesDiv.appendChild(element);
 });
+
 // click on validerCode
 const createCode = document.querySelector("#validerCode");
 createCode.addEventListener("click", () => {
@@ -66,8 +92,6 @@ createCode.addEventListener("click", () => {
     })
     .then((response) => {
       console.log(response);
-      // reload page
-      // alert with code
       alert("Votre code est: " + response.data.code);
       window.location.reload();
     });

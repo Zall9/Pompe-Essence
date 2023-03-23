@@ -1,37 +1,29 @@
 {
   "codes": [
     {
-      "code": "dlkhik5ft_Ethanol_88",
+      "code": "p4r3bgkz7_Diesel_98",
       "id": 1
-    },
-    {
-      "code": "89zaz8vns_Diesel_81",
-      "id": 2
-    },
-    {
-      "code": "xd8kjvnyo_Essence_849",
-      "id": 3
     }
   ],
   "pompes": [
     {
       "nom": "Diesel",
-      "volume": 42,
+      "volume": 51,
       "type": "Diesel",
       "estDisponible": true,
       "id": 1
     },
     {
-      "nom": "Ethanol",
-      "volume": 79,
-      "type": "Ethanol",
+      "nom": "Essence",
+      "volume": 0,
+      "type": "Essence",
       "estDisponible": true,
       "id": 2
     },
     {
-      "nom": "Essence",
-      "volume": 566,
-      "type": "Essence",
+      "nom": "Ethanol",
+      "volume": 0,
+      "type": "Ethanol",
       "estDisponible": true,
       "id": 3
     }

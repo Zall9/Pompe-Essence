@@ -90,26 +90,16 @@ export default class Caisse {
    * @returns
    */
 
-  async payer(code, pompe) {
-    const montantCode = code.split("_")[2];
-    const typeCarburant = code.split("_")[1];
-    const idCarte = code.split("_")[0];
+  // async payer(code, pompe) {
+  //   const montantCode = code.split("_")[2];
+  //   const typeCarburant = code.split("_")[1];
+  //   const idCarte = code.split("_")[0];
 
-    // alimenter la pompe du montant en volume
-    pompe.alimenter(montantCode);
-    // enlever les 100 euros de la cartes (mais cartes la carte en memmoire)
-    const newCode = await this.setMontantCode(idCarte, code, montantCode);
-    // afficher les deux boutons commencer et fini
-    // est dispo on le met a false
-    // des qu'il clique chaque seconde mon debite 2 litres
-    // quand il a fini on met est dispo a true
-    // on affiche le montant total
-    // on affiche le code de transaction
-    // si le montant est insuffisant on affiche un message d'erreur
-    // si le montant n'est pas consonmme totalement on remet la difference sur la carte
-    // on vide la pompe pour le prochain client
-
-  }
+  //   // alimenter la pompe du montant en volume
+  //   pompe.alimenter(montantCode);
+  //   // enlever les 100 euros de la cartes (mais cartes la carte en memmoire)
+  //   const newCode = await this.setMontantCode(idCarte, code, montantCode);
+  // }
 
   async getCode(id) {
     try {

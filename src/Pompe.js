@@ -231,6 +231,46 @@ export class staticPump {
     }
   }
 
+  async getCodeStartWith(code) {
+    try {
+      const response = await axios.get("http://localhost:3000/codes");
+      let codes = response.data.map((data) => data.code);
+
+      // split each codes with _
+      const codesSplit = codes.map((code) => code.split("_"));
+      // loop through codesSplit and check if index 0 is equal to code
+      for (let i = 0; i < codesSplit.length; i++) {
+        if (codesSplit[i][0] === code) {
+          // print type of carburant
+          let carburant = codesSplit[i][1];
+          let code = codesSplit[i][0];
+          let volume = codesSplit[i][2];
+          let codeCarburant = code + "_" + carburant + "_" + volume;
+          return codeCarburant;
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+
+  async getId(code) {
+    try {
+      const response = await axios.get("http://localhost:3000/codes");
+      let codes = response.data.map((data) => data.code);
+      const codesSplit = codes.map((code) => code.split("_"));
+      for (let i = 0; i < codesSplit.length; i++) {
+        if (codesSplit[i][0] === code) {
+          return i + 1; // id start at 1
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      return -1;
+    }
+  }
+
   async alimenterPompe(pumpid) {
     console.log("alimenterPompe");
 
@@ -258,23 +298,31 @@ export class staticPump {
     // verifie if code in db.json
     const response = await axios.get("http://localhost:3000/codes");
     const codes = response.data;
-    const code = codes.find((code) => code.code === inputCode);
+
+    let code = await this.getCodeStartWith(inputCode);
 
     if (code === undefined) {
       alert("Code invalide");
       return;
     }
 
-    const codeElement = code.code;
+    // get id of code
+    const id = await this.getId(inputCode);
+    console.log("l'id du code est : ", id);
 
     // separe value of code
-    const codeValue = codeElement.split("_");
-    // value
-    console.log(codeValue);
-
+    const codeValue = code.split("_");
     const startText = codeValue[0];
     const typeCarburant = codeValue[1];
     const prix = codeValue[2];
+
+    // convertir le reservoir en argent
+    const argent = this.caisse.calculerPrix(reservoir, typeCarburant);
+
+    if (prix < argent) {
+      alert("Vous etes pauvre");
+      return;
+    }
 
     //verifie si le type de carburant est le meme que la pompe
     const typePompe = await this.getTypeCarburant();
@@ -286,6 +334,7 @@ export class staticPump {
 
     // get le volume avec le prix
     const volume = this.caisse.calculerLitre(prix, typeCarburant);
+
     // arrondir avec aucun chiffre apres la virgule je veux zero chiffre apres la virgule
     const volumeArrondi = Math.round(volume * 100) / 100;
     // alimenter la pompe de volumeArrondi
@@ -293,15 +342,12 @@ export class staticPump {
     // update estDisponible to true
     await this.setEstDisponible(false);
 
-    // convertir le reservoir en argent
-    const argent = this.caisse.calculerPrix(reservoir, typeCarburant);
-
     // re create a new code
     const newPrice = +prix - argent;
     const newCode = startText + "_" + typeCarburant + "_" + ~~newPrice;
 
     // update code in db.json
-    await axios.patch(`http://localhost:3000/codes/${code.id}`, {
+    await axios.patch(`http://localhost:3000/codes/${id}`, {
       code: newCode,
     });
     console.log("le nouveau code est : " + newCode);
@@ -359,6 +405,7 @@ export class staticPump {
       await pump.alimenterPompe(pump.id);
       console.log("alimenterPompe:", pump.id);
       event.preventDefault();
+      window.location.reload();
     });
     div.appendChild(buttonAlimenter);
     return div;
