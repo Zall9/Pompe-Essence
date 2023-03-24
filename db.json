@@ -1,18 +1,14 @@
 {
   "codes": [
     {
-      "code": "do0cmp79d_Diesel_14",
+      "code": "llqasz1sn_essence_84",
       "id": 1
-    },
-    {
-      "code": "4uoxk39kk_Diesel_24",
-      "id": 2
     }
   ],
   "pompes": [
     {
       "nom": "Diesel",
-      "volume": 97,
+      "volume": 0,
       "type": "Diesel",
       "estDisponible": true,
       "id": 1

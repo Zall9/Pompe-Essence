@@ -322,22 +322,24 @@ export class staticPump {
       const volumeArrondi = Math.round(volume * 100) / 100;
 
       await this.alimenter(volumeArrondi).then(async (responseAlimenter) => {
-        await this.setEstDisponible(true).then(async (responseSetEstDisponible) => {
-          const newPrice = +montantSurCarte - valeurDeReservoir;
-          const newCode = startText + "_" + typeCarburant + "_" + ~~newPrice;
+        await this.setEstDisponible(true).then(
+          async (responseSetEstDisponible) => {
+            const newPrice = +montantSurCarte - valeurDeReservoir;
+            const newCode = startText + "_" + typeCarburant + "_" + ~~newPrice;
 
-          console.log("le nouveau code est : ", newCode);
-          await this.debiter(volumeArrondi).then(async (responseDebiter) => {
-            try {
-              await axios.patch(`http://localhost:3000/codes/${id}`, {
-                code: newCode,
-              });
-            } catch (error) {
-              console.error(error);
-            }
-          });
-        });
-      })
+            console.log("le nouveau code est : ", newCode);
+            await this.debiter(volumeArrondi).then(async (responseDebiter) => {
+              try {
+                await axios.patch(`http://localhost:3000/codes/${id}`, {
+                  code: newCode,
+                });
+              } catch (error) {
+                console.error(error);
+              }
+            });
+          }
+        );
+      });
       // update estDisponible to tru
       //alert("Le nouveau solde de votre carte est de " + newPrice + "€");
     }
@@ -391,7 +393,7 @@ export class staticPump {
       await pump.alimenterPompe(pump.id);
       console.log("alimenterPompe:", pump.id);
       event.preventDefault();
-      //window.location.reload();
+      window.location.reload();
     });
     div.appendChild(buttonAlimenter);
     return div;
