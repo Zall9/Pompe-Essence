@@ -321,27 +321,24 @@ export class staticPump {
 
       const volumeArrondi = Math.round(volume * 100) / 100;
 
-      await this.alimenter(volumeArrondi); // alimente la pompe
+      await this.alimenter(volumeArrondi).then(async (responseAlimenter) => {
+        await this.setEstDisponible(true).then(async (responseSetEstDisponible) => {
+          const newPrice = +montantSurCarte - valeurDeReservoir;
+          const newCode = startText + "_" + typeCarburant + "_" + ~~newPrice;
 
-      // update estDisponible to true
-
-      await this.setEstDisponible(true);
-
-      const newPrice = +montantSurCarte - valeurDeReservoir;
-      const newCode = startText + "_" + typeCarburant + "_" + ~~newPrice;
-
-      console.log("le nouveau code est : ", newCode);
-
-      await this.debiter(volumeArrondi);
-
-      try {
-        await axios.patch(`http://localhost:3000/codes/${id}`, {
-          code: newCode,
+          console.log("le nouveau code est : ", newCode);
+          await this.debiter(volumeArrondi).then(async (responseDebiter) => {
+            try {
+              await axios.patch(`http://localhost:3000/codes/${id}`, {
+                code: newCode,
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          });
         });
-      } catch (error) {
-        console.error(error);
-      }
-
+      })
+      // update estDisponible to tru
       //alert("Le nouveau solde de votre carte est de " + newPrice + "€");
     }
   }
