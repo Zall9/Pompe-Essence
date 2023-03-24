@@ -2,6 +2,22 @@ body{
 font-family: 'Noto Sans', sans-serif;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.box {
+    text-align: center;
+    margin: 10px;
+    flex-basis: calc(33.33% - 20px);
+    border: 1px solid black;
+}
+
+
 .title{
+    margin-top: 50px;
     text-align: center;
 }

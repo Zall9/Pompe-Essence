@@ -139,7 +139,7 @@ export default class Caisse {
     const div = document.createElement("div");
     div.classList.add("caisse");
     const h2 = document.createElement("h2");
-    h2.innerHTML = "Caisse";
+    h2.innerHTML = "Les codes";
     div.appendChild(h2);
     const ul = document.createElement("ul");
     for (let code of codes) {

@@ -20,117 +20,10 @@ export default class Pompe {
       this.estDisponible = response.data.estDisponible;
     })();
   }
-  async getTypeCarburant() {
-    let typeCarburant = "";
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/pompes/${this.id}`
-      );
-      typeCarburant = response.data.type;
-    } catch (error) {
-      console.error(error);
-    }
-    return typeCarburant;
-  }
-
-  async alimenter(volume) {
-    let res = -1;
-    try {
-      const response = await axios.patch(
-        `http://localhost:3000/pompes/${this.id}`,
-        {
-          volume: volume,
-        }
-      );
-      res = response.data.volume;
-    } catch (error) {
-      console.error(error);
-    }
-    return res;
-  }
-  async getVolumeDispo() {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/pompes/${this.id}`
-      );
-      return response.data.volume;
-    } catch (error) {
-      console.error(error);
-      return -1;
-    }
-  }
-  async setEstDisponible(estDisponible) {
-    try {
-      const response = await axios.patch(
-        `http://localhost:3000/pompes/${this.id}`,
-        {
-          estDisponible: estDisponible,
-        }
-      );
-      this.estDisponible = response.data.estDisponible;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async getEstDisponible() {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/pompes/${this.id}`
-      );
-      return response.data.estDisponible;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-
-  async alimenterPompe() {
-    console.log("alimenterPompe");
-  }
-
-  static domElement = async (pump) => {
-    const div = document.createElement("div");
-    div.classList.add("pompe");
-    const h2 = document.createElement("h2");
-    h2.innerHTML = pump.nom;
-    div.appendChild(h2);
-    const p = document.createElement("p");
-    p.innerHTML = "Volume disponible: " + pump.volume;
-    div.appendChild(p);
-    const p2 = document.createElement("p");
-    p2.innerHTML = "Type de carburant: " + pump.type;
-    div.appendChild(p2);
-    const p3 = document.createElement("p");
-    p3.innerHTML = "Disponible: " + pump.estDisponible;
-    div.appendChild(p3);
-
-    const inputCode = document.createElement("input");
-    inputCode.setAttribute("type", "text");
-    inputCode.setAttribute("placeholder", "Code");
-    div.appendChild(inputCode);
-
-    const buttonAlimenter = document.createElement("button");
-    // add text to button
-    buttonAlimenter.textContent = "Alimenter";
-    buttonAlimenter.addEventListener("click", (pump) => pump.alimenterPompe());
-
-    const buttonFinish = document.createElement("button");
-    // add text to button
-    buttonFinish.textContent = "Terminer";
-
-    buttonFinish.addEventListener("click", () => alert("test"));
-
-    div.appendChild(buttonAlimenter);
-
-    div.appendChild(buttonFinish);
-
-    return div;
-  };
 }
 
 export class staticPump {
-  constructor(pump) {
+  constructor(pump, code = null) {
     this.id = pump.id;
     this.nom = pump.nom;
     this.volume = pump.volume;
@@ -151,25 +44,56 @@ export class staticPump {
     return typeCarburant;
   }
 
-  async alimenter(volume, pumpid) {
+  async alimenter(volume) {
     let res = -1;
+    const volumeCourrant = this.volume;
     try {
-      const response = await axios.patch(
-        `http://localhost:3000/pompes/${this.id}`,
-        {
-          volume: volume,
-        }
-      );
+      // update requets
+      const response = await axios
+        .patch(`http://localhost:3000/pompes/${this.id}`, {
+          volume: ~~(volumeCourrant + volume),
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       res = response.data.volume;
+      this.volume = res;
     } catch (error) {
-      console.error(error);
+      console.error(error + " from set alimenter");
     }
 
     // get from dom with id vol + pump
-    const vol = document.getElementById("vol" + pumpid);
+    const vol = document.getElementById("vol" + this.id);
     vol.innerHTML = "Volume disponible: " + res;
     return res;
   }
+
+  async debiter(volume) {
+    let res = -1;
+    const volumeCourrant = this.volume;
+    try {
+      let result = ~~(volumeCourrant - volume);
+      if (result < 0) {
+        result = 0;
+      }
+
+      const response = await axios.patch(
+        `http://localhost:3000/pompes/${this.id}`,
+        {
+          volume: result,
+        }
+      );
+      res = response.data.volume;
+      this.volume = res;
+    } catch (error) {
+      console.error(error + " from set est debiter");
+    }
+    // get from dom with id vol + pump
+    const vol = document.getElementById("vol" + this.id);
+    vol.innerHTML = "Volume disponible: " + res;
+    return res;
+  }
+
   async getVolumeDispo() {
     try {
       const response = await axios.get(
@@ -191,7 +115,7 @@ export class staticPump {
       );
       this.estDisponible = response.data.estDisponible;
     } catch (error) {
-      console.error(error);
+      console.error(error + " from set est dispo");
     }
 
     // get from dom with id vol + pump
@@ -290,10 +214,22 @@ export class staticPump {
     const reservoir = +inputReservoir;
 
     // if code is null
-    if (inputCode === "") {
+    if (
+      inputCode === "" ||
+      inputReservoir === "" ||
+      inputCode === undefined ||
+      inputReservoir === undefined
+    ) {
       alert("Veuillez entrer un code");
       return;
     }
+
+    // delete space in inputCode and inputReservoir
+    inputCode.trim();
+    inputReservoir.trim();
+
+    console.log("le code est : ", inputCode);
+    console.log("le reservoir est : ", reservoir);
 
     // verifie if code in db.json
     const response = await axios.get("http://localhost:3000/codes");
@@ -306,7 +242,9 @@ export class staticPump {
       return;
     }
 
-    // get id of code
+    console.log("le code commence par est : ", code);
+
+    // // get id of code
     const id = await this.getId(inputCode);
     console.log("l'id du code est : ", id);
 
@@ -314,47 +252,98 @@ export class staticPump {
     const codeValue = code.split("_");
     const startText = codeValue[0];
     const typeCarburant = codeValue[1];
-    const prix = codeValue[2];
+    const montantSurCarte = codeValue[2];
 
-    // convertir le reservoir en argent
-    const argent = this.caisse.calculerPrix(reservoir, typeCarburant);
-
-    if (prix < argent) {
-      alert("Vous etes pauvre");
-      return;
-    }
+    console.log("le startText est : ", startText);
+    console.log("le typeCarburant est : ", typeCarburant);
+    console.log("le prix est : ", montantSurCarte);
 
     //verifie si le type de carburant est le meme que la pompe
     const typePompe = await this.getTypeCarburant();
-    if (typeCarburant !== typePompe) {
+    if (typeCarburant.toLowerCase() !== typePompe.toLowerCase()) {
       alert("Type de carburant invalide");
       window.location.reload();
       return;
     }
+    console.log("le type de pompe du get est : ", typePompe);
+    console.log("le type de carburant est : ", typeCarburant);
 
-    // get le volume avec le prix
-    const volume = this.caisse.calculerLitre(prix, typeCarburant);
+    // Je veux le prix du volume du reservoir
+    const valeurDeReservoir = this.caisse.calculerPrix(
+      reservoir,
+      typeCarburant
+    );
+    console.log("le prix est : ", valeurDeReservoir);
+    const volume = this.caisse.calculerLitre(montantSurCarte, typeCarburant);
 
-    // arrondir avec aucun chiffre apres la virgule je veux zero chiffre apres la virgule
-    const volumeArrondi = Math.round(volume * 100) / 100;
-    // alimenter la pompe de volumeArrondi
-    await this.alimenter(volumeArrondi, pumpid);
-    // update estDisponible to true
-    await this.setEstDisponible(false);
+    if (montantSurCarte < valeurDeReservoir) {
+      alert(
+        "Vous n'avez pas assez d'argent, nous avons rempli votre reservoir au maximum possible de votre solde de la carte"
+      );
+      // remplir pour tous son reservoir en fonction de son prix
+      // et supprimer la carte
+      console.log(
+        "votre montant du reservoir est superieur a celui de votre carte "
+      );
+      console.log("la valeur de reservoir est : ", volume);
 
-    // re create a new code
-    const newPrice = +prix - argent;
-    const newCode = startText + "_" + typeCarburant + "_" + ~~newPrice;
+      console.log("j'alimente");
 
-    // update code in db.json
-    await axios.patch(`http://localhost:3000/codes/${id}`, {
-      code: newCode,
-    });
-    console.log("le nouveau code est : " + newCode);
+      // set timeout to set estDisponible to false
+      await this.setEstDisponible(false);
 
-    await this.setEstDisponible(true);
-    const newVolume = (await this.getVolumeDispo()) - reservoir;
-    await this.alimenter(~~newVolume, pumpid);
+      const volumeArrondi = Math.round(volume * 100) / 100;
+
+      await this.alimenter(volumeArrondi); // alimente la pompe
+
+      // update estDisponible to true
+
+      await this.setEstDisponible(true);
+
+      // get volume de la pompe
+      const volumePompe = await this.getVolumeDispo();
+
+      console.log("le volume de la pompe est : ", volumePompe);
+
+      // alimente new volume
+
+      await this.debiter(volumeArrondi);
+
+      await axios.delete(`http://localhost:3000/codes/${id}`);
+    } else {
+      console.log(
+        "votre montant du reservoir est superieur a celui de votre carte "
+      );
+      console.log("la valeur de reservoir est : ", volume);
+      console.log("j'alimente");
+
+      await this.setEstDisponible(false);
+
+      const volumeArrondi = Math.round(volume * 100) / 100;
+
+      await this.alimenter(volumeArrondi); // alimente la pompe
+
+      // update estDisponible to true
+
+      await this.setEstDisponible(true);
+
+      const newPrice = +montantSurCarte - valeurDeReservoir;
+      const newCode = startText + "_" + typeCarburant + "_" + ~~newPrice;
+
+      console.log("le nouveau code est : ", newCode);
+
+      await this.debiter(volumeArrondi);
+
+      try {
+        await axios.patch(`http://localhost:3000/codes/${id}`, {
+          code: newCode,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+
+      //alert("Le nouveau solde de votre carte est de " + newPrice + "€");
+    }
   }
 
   static domElement = async (pump) => {
@@ -405,7 +394,7 @@ export class staticPump {
       await pump.alimenterPompe(pump.id);
       console.log("alimenterPompe:", pump.id);
       event.preventDefault();
-      window.location.reload();
+      //window.location.reload();
     });
     div.appendChild(buttonAlimenter);
     return div;

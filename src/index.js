@@ -2,30 +2,6 @@ import Caisse from "./Caisse.js";
 import Pompe, { staticPump } from "./Pompe.js";
 import axios from "axios";
 
-// let resetDB = document.querySelector("#resteDB");
-// resetDB.addEventListener("click", () =>{
-//   axios
-//     .delete("http://localhost:3000/codes")
-//     .then((response) => {
-//       console.log("Delete codes");
-//       console.log(response);
-//       window.location.reload();
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-
-//   axios
-//     .delete("http://localhost:3000/pompes")
-//     .then((response) => {
-//       console.log("Delete pompes");
-//       console.log(response);
-//       window.location.reload();
-//     }
-//     .catch((error) => {
-//       console.log(error);
-//     }
-// });
 
 // Création de la caisse
 const caisse = new Caisse();
