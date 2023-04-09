@@ -27,10 +27,4 @@ export default class Station {
   set pompes(pompes) {
     this._pompes = pompes;
   }
-
-  fairePlein(idPompe, montant) {
-    const code = this.caisse.payer(montant, idPompe);
-    const pompe = this.pompes.find((p) => p.id === idPompe);
-    return pompe.delivrer(code);
-  }
 }

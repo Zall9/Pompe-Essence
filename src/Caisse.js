@@ -38,18 +38,46 @@ export default class Caisse {
   // faire une fonction prend le montant et renvoi le litre correspondant
 
   calculerLitre(montant, typeCarburant) {
+    console.log("je suis dedans");
+    if (montant === 0) return 0;
+
+    // verifie if montant is a number
+    if (isNaN(montant)) {
+      // convert to number
+      montant = +montant;
+    }
+
     typeCarburant = typeCarburant.toLowerCase();
     if (typeCarburant === "diesel") {
-      return montant / Prix.diesel;
+      return montant / Prix.Diesel;
     }
-    if (typeCarburant === "gazole") {
-      return montant / Prix.gazole;
+    if (typeCarburant === "ethanol") {
+      return montant / Prix.Ethanol;
     }
     if (typeCarburant === "essence") {
-      return montant / Prix.essence;
+      return montant / Prix.Essence;
     }
   }
 
+  calculerPrix(litre, typeCarburant) {
+    if (litre === 0) return 0;
+
+    // verifie if montant is a number
+    if (isNaN(litre)) {
+      // convert to number
+      litre = +litre;
+    }
+    typeCarburant = typeCarburant.toLowerCase();
+    if (typeCarburant === "diesel") {
+      return litre * Prix.Diesel;
+    }
+    if (typeCarburant === "ethanol") {
+      return litre * Prix.Ethanol;
+    }
+    if (typeCarburant === "essence") {
+      return litre * Prix.Essence;
+    }
+  }
   // faire fonction qui prend le litre et renvoi le montant totale
 
   /// faire une fonction payer
@@ -62,25 +90,16 @@ export default class Caisse {
    * @returns
    */
 
-  async payer(code, pompe) {
-    const montantCode = code.split("_")[2];
-    const typeCarburant = code.split("_")[1];
-    const idCarte = code.split("_")[0];
+  // async payer(code, pompe) {
+  //   const montantCode = code.split("_")[2];
+  //   const typeCarburant = code.split("_")[1];
+  //   const idCarte = code.split("_")[0];
 
-    // alimenter la pompe du montant en volume
-    pompe.alimenter(montantCode);
-    // enlever les 100 euros de la cartes (mais cartes la carte en memmoire)
-    const newCode = await this.setMontantCode(idCarte, code, montantCode);
-    // afficher les deux boutons commencer et fini
-    // est dispo on le met a false
-    // des qu'il clique chaque seconde mon debite 2 litres
-    // quand il a fini on met est dispo a true
-    // on affiche le montant total
-    // on affiche le code de transaction
-    // si le montant est insuffisant on affiche un message d'erreur
-    // si le montant n'est pas consonmme totalement on remet la difference sur la carte
-    // on vide la pompe pour le prochain client
-  }
+  //   // alimenter la pompe du montant en volume
+  //   pompe.alimenter(montantCode);
+  //   // enlever les 100 euros de la cartes (mais cartes la carte en memmoire)
+  //   const newCode = await this.setMontantCode(idCarte, code, montantCode);
+  // }
 
   async getCode(id) {
     try {
@@ -120,11 +139,13 @@ export default class Caisse {
     const div = document.createElement("div");
     div.classList.add("caisse");
     const h2 = document.createElement("h2");
-    h2.innerHTML = "Caisse";
+    h2.innerHTML = "Les codes";
     div.appendChild(h2);
     const ul = document.createElement("ul");
     for (let code of codes) {
+      const _code = code.split("_")[0];
       const li = document.createElement("li");
+      // li.innerHTML=_code
       li.innerHTML = code;
       ul.appendChild(li);
     }

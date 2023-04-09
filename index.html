@@ -14,31 +14,18 @@
     <title>Pompe architecture logicielle TP 1</title>
   </head>
   <body>
-    <div>
-      <h1 class="title">Station-service</h1>
-      <div style="display: flex; flex-direction: row; justify-content: center">
+    <h1 class="title">Station-service</h1>
+    <div class="container">
+      <div class="box">
         <div id="caisse" style="margin-right: 20px"></div>
-        <div id="pompes"></div>
       </div>
-      <div style="display: flex; flex-direction: row; justify-content: center">
-        <div
-          style="
-            display: grid;
-            justify-content: center;
-            align-content: center;
-            margin-right: 20px;
-          "
-        >
-          <h2>Caisse</h2>
-          <input
-            type="text"
-            id="typeCarburant"
-            placeholder="Type de carburant"
-          />
-          <input type="text" id="qttCarburant" placeholder="Argent" />
-          <button id="validerCode">Valider</button>
-        </div>
+      <div class="box">
+        <h2>Caisse</h2>
+        <input type="text" id="typeCarburant" placeholder="Type de carburant" />
+        <input type="text" id="qttCarburant" placeholder="Argent" />
+        <button id="validerCode">Valider</button>
       </div>
+      <div class="box"><div id="pompes"></div></div>
     </div>
     <script type="module" src="./src/index.js"></script>
     <script type="module" src="/main.js"></script>
